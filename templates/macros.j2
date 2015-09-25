@@ -1,0 +1,3 @@
+{% macro peers() -%}
+http://{{ansible_default_ipv4.address}}:2379
+{%- endmacro %}

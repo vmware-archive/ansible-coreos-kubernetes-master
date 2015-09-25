@@ -1,0 +1,95 @@
+---
+- name: create certs directory
+  sudo: yes
+  file:
+    path={{ kube_cert_dir }}
+    state=directory
+    mode=o-rwx
+
+- name: retrieve ca.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/ca.pem"
+  register: ca_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register ca.pem
+  set_fact:
+    kube_ca_pem: "{{ ca_pem.content|b64decode }}"
+
+- name: place ca.pem
+  sudo: yes
+  copy: content="{{ kube_ca_pem }}" dest="{{ kube_cert_dir }}/ca.pem"
+
+- name: retrieve apiserver.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/apiserver-{{hostvars[groups['ca'][0]].openssl_cnf_sha1}}.pem"
+  register: apiserver_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register apiserver.pem
+  set_fact:
+    kube_apiserver_pem: "{{ apiserver_pem.content|b64decode }}"
+
+- name: place apiserver.pem
+  sudo: yes
+  copy: content="{{ kube_apiserver_pem }}" dest="{{ kube_cert_dir }}/apiserver.pem"
+
+- name: retrieve apiserver-key.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/apiserver-key.pem"
+  register: apiserver_key_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register apiserver-key.pem
+  set_fact:
+    kube_apiserver_key_pem: "{{ apiserver_key_pem.content|b64decode }}"
+
+- name: place apiserver-key.pem
+  sudo: yes
+  copy: content="{{ kube_apiserver_key_pem }}" dest="{{ kube_cert_dir }}/apiserver-key.pem"
+
+- name: create manifests directory
+  sudo: yes
+  file:
+    path={{ kube_manifests_dir }}
+    state=directory
+
+- name: install apiserver pod
+  sudo: yes
+  template: src=kube-apiserver.yaml dest={{kube_manifests_dir}}/kube-apiserver.yaml
+
+- name: install proxy pod
+  sudo: yes
+  template: src=kube-proxy.yaml dest={{kube_manifests_dir}}/kube-proxy.yaml
+
+- name: create podmaster manifests directory
+  sudo: yes
+  file:
+    path={{ kube_podmaster_dir }}
+    state=directory
+
+- name: install podmaster pod
+  sudo: yes
+  template: src=kube-podmaster.yaml dest={{kube_manifests_dir}}/kube-podmaster.yaml
+
+- name: install controller-manager pod
+  sudo: yes
+  template: src=kube-controller-manager.yaml dest={{kube_podmaster_dir}}/kube-controller-manager.yaml
+
+- name: install scheduler pod
+  sudo: yes
+  template: src=kube-scheduler.yaml dest={{kube_podmaster_dir}}/kube-scheduler.yaml
+
+- name: wait for apiserver to be up
+  command: curl -i --silent http://localhost:8080
+  register: result
+  until: result.stdout.find("200 OK") != -1
+  retries: 30
+  delay: 10
+  changed_when: false
+
+- name: create kube-system namespace
+  command: curl -XPOST -d'{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}' "http://127.0.0.1:8080/api/v1/namespaces"

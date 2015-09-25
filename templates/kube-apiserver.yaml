@@ -1,0 +1,46 @@
+{% import "macros.j2" as _etcd with context %}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  hostNetwork: true
+  containers:
+  - name: kube-apiserver
+    image: gcr.io/google_containers/hyperkube:v1.0.6
+    command:
+    - /hyperkube
+    - apiserver
+    - --bind-address=0.0.0.0
+    - --etcd_servers={{_etcd.peers()}}
+    - --allow-privileged=true
+    - --service-cluster-ip-range={{kubernetes_service_addresses}}
+    - --secure_port=443
+    - --advertise-address={{ansible_default_ipv4.address}}
+    - --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota
+    - --tls-cert-file={{kube_cert_dir}}/apiserver.pem
+    - --tls-private-key-file={{kube_cert_dir}}/apiserver-key.pem
+    - --client-ca-file={{kube_cert_dir}}/ca.pem
+    - --service-account-key-file={{kube_cert_dir}}/apiserver-key.pem
+    ports:
+    - containerPort: 443
+      hostPort: 443
+      name: https
+    - containerPort: 8080
+      hostPort: 8080
+      name: local
+    volumeMounts:
+    - mountPath: {{kube_cert_dir}}
+      name: ssl-certs-kubernetes
+      readOnly: true
+    - mountPath: /etc/ssl/certs
+      name: ssl-certs-host
+      readOnly: true
+  volumes:
+  - hostPath:
+      path: {{kube_cert_dir}}
+    name: ssl-certs-kubernetes
+  - hostPath:
+      path: /usr/share/ca-certificates
+    name: ssl-certs-host
