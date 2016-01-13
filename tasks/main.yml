@@ -57,6 +57,14 @@
     path={{ kube_manifests_dir }}
     state=directory
 
+- name: create auth dir
+  sudo: yes
+  file: path={{kube_auth_dir}} state=directory
+
+- name: create token file
+  sudo: yes
+  template: src=tokens.csv dest={{kube_token_auth_file}}
+
 - name: install apiserver pod
   sudo: yes
   template: src=kube-apiserver.yaml dest={{kube_manifests_dir}}/kube-apiserver.yaml

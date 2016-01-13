@@ -1,0 +1,3 @@
+{% for key, val in kube_users_map.items() %}
+{{ val.token }}, {{ key }}, {{ val.uid }}
+{% endfor %}

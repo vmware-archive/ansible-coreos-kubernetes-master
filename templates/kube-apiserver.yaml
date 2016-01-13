@@ -23,6 +23,7 @@ spec:
     - --tls-private-key-file={{kube_cert_dir}}/apiserver-key.pem
     - --client-ca-file={{kube_cert_dir}}/ca.pem
     - --service-account-key-file={{kube_cert_dir}}/apiserver-key.pem
+    - --token-auth-file=/etc/auth/tokens.csv
     ports:
     - containerPort: 443
       hostPort: 443
@@ -37,6 +38,9 @@ spec:
     - mountPath: /etc/ssl/certs
       name: ssl-certs-host
       readOnly: true
+    - mountPath: /etc/auth
+      name: auth-kubernetes
+      readOnly: true
   volumes:
   - hostPath:
       path: {{kube_cert_dir}}
@@ -44,3 +48,6 @@ spec:
   - hostPath:
       path: /usr/share/ca-certificates
     name: ssl-certs-host
+  - hostPath:
+      path: {{kube_auth_dir}}
+    name: auth-kubernetes
