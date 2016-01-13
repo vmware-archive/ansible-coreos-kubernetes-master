@@ -65,6 +65,10 @@
   sudo: yes
   template: src=tokens.csv dest={{kube_token_auth_file}}
 
+- name: create policies file
+  sudo: yes
+  template: src=policies.jsonl dest={{kube_policies_auth_file}}
+
 - name: install apiserver pod
   sudo: yes
   template: src=kube-apiserver.yaml dest={{kube_manifests_dir}}/kube-apiserver.yaml

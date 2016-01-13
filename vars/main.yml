@@ -1,2 +1,3 @@
 ---
 kube_token_auth_file: "{{kube_auth_dir}}/tokens.csv"
+kube_policies_auth_file: "{{kube_auth_dir}}/policies.jsonl"

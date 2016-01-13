@@ -9,3 +9,4 @@ podmaster: "gcr.io/google_containers/podmaster:1.1"
 etcd_certs_root: "/etc/ssl/etcd"
 kube_auth_dir: "/etc/kubernetes/auth"
 kube_users_map: {}
+kube_policies_list: []

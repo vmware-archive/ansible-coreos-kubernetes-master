@@ -1,0 +1,3 @@
+{% for policy in kube_policies_list %}
+{{ policy | to_json }}
+{% endfor %}
