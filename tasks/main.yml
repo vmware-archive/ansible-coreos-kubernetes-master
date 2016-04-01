@@ -104,5 +104,6 @@
   changed_when: false
 
 - name: create kube-system namespace
-  command: curl -XPOST -d'{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}' "http://127.0.0.1:8080/api/v1/namespaces"
+  command: >-
+    curl -XPOST -H 'Content-Type: application/json' -d'{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}' "http://127.0.0.1:8080/api/v1/namespaces"
   changed_when: false
