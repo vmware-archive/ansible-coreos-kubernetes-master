@@ -89,11 +89,11 @@
 
 - name: install controller-manager pod
   sudo: yes
-  template: src=kube-controller-manager.yaml dest={{kube_podmaster_dir}}/kube-controller-manager.yaml
+  template: src=kube-controller-manager.yaml dest={{kube_manifests_dir}}/kube-controller-manager.yaml
 
 - name: install scheduler pod
   sudo: yes
-  template: src=kube-scheduler.yaml dest={{kube_podmaster_dir}}/kube-scheduler.yaml
+  template: src=kube-scheduler.yaml dest={{kube_manifests_dir}}/kube-scheduler.yaml
 
 - name: wait for apiserver to be up
   command: curl -i --silent http://localhost:8080
