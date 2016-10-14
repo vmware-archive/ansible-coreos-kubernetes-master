@@ -14,7 +14,7 @@ spec:
         - /hyperkube
         - apiserver
         - --bind-address=0.0.0.0
-        - --etcd_servers={{_etcd.peers()}}
+        - --etcd-servers={{_etcd.peers()}}
         - --allow-privileged=true
         - --service-cluster-ip-range={{kubernetes_service_addresses}}
         - --secure_port=443

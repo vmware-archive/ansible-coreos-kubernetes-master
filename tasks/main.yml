@@ -77,16 +77,6 @@
   sudo: yes
   template: src=kube-proxy.yaml dest={{kube_manifests_dir}}/kube-proxy.yaml
 
-- name: create podmaster manifests directory
-  sudo: yes
-  file:
-    path={{ kube_podmaster_dir }}
-    state=directory
-
-- name: install podmaster pod
-  sudo: yes
-  template: src=kube-podmaster.yaml dest={{kube_manifests_dir}}/kube-podmaster.yaml
-
 - name: install controller-manager pod
   sudo: yes
   template: src=kube-controller-manager.yaml dest={{kube_manifests_dir}}/kube-controller-manager.yaml
