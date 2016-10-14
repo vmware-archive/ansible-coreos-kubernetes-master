@@ -1,7 +1,7 @@
 CoreOS Kubernetes Masters
 =========================
 
-current version: 0.3.0
+current version: 0.4.0
 A role to manage Kubernetes masters in a CoreOS cluster
 
 Role Variables
