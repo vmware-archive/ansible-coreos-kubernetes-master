@@ -27,6 +27,7 @@ spec:
         - --token-auth-file=/etc/auth/tokens.csv
         - --authorization-mode=ABAC
         - --authorization-policy-file=/etc/auth/policies.jsonl
+        - --audit-log-path=/dev/stdout
       ports:
         - containerPort: 443
           hostPort: 443
