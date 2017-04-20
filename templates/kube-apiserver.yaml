@@ -25,8 +25,9 @@ spec:
         - --client-ca-file={{kube_cert_dir}}/ca.pem
         - --service-account-key-file={{kube_cert_dir}}/apiserver-key.pem
         - --token-auth-file=/etc/auth/tokens.csv
-        - --authorization-mode=ABAC
+        - --authorization-mode=ABAC,RBAC
         - --authorization-policy-file=/etc/auth/policies.jsonl
+        - --authorization-rbac-super-user=kube-admin
         - --audit-log-path=/dev/stdout
       ports:
         - containerPort: 443
