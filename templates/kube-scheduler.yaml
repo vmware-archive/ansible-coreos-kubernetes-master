@@ -13,6 +13,10 @@ spec:
     - scheduler
     - --master=http://127.0.0.1:8080
     - --leader-elect=true
+    {% if kube_scheduler_policy_config_dir and kube_scheduler_policy_config_file_name -%}
+    - --policy-config-file={{kube_scheduler_policy_config_dir}}/{{kube_scheduler_policy_config_file_name}}
+    {% endif -%}
+    - --v={{kube_scheduler_verbosity}}
     resources:
       requests:
         cpu: {{kube_scheduler_requests_cpu}}
@@ -24,3 +28,12 @@ spec:
         port: 10251
       initialDelaySeconds: 15
       timeoutSeconds: 1
+    {% if kube_scheduler_policy_config_dir -%}
+    volumeMounts:
+    - name: kube-scheduler-policy-config
+      mountPath: {{kube_scheduler_policy_config_dir}}
+  volumes:
+  - name: kube-scheduler-policy-config
+    hostPath:
+      path: {{kube_scheduler_policy_config_dir}}
+    {% endif -%}
