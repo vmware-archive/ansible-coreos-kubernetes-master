@@ -29,6 +29,13 @@ spec:
         - --authorization-policy-file=/etc/auth/policies.jsonl
         - --authorization-rbac-super-user=kube-admin
         - --audit-log-path=/dev/stdout
+      livenessProbe:
+        httpGet:
+          host: 127.0.0.1
+          port: 8080
+          path: /healthz
+        initialDelaySeconds: 15
+        timeoutSeconds: 15
       ports:
         - containerPort: 443
           hostPort: 443
