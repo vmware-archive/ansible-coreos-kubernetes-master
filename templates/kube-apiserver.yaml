@@ -29,6 +29,8 @@ spec:
         - --authorization-policy-file=/etc/auth/policies.jsonl
         - --authorization-rbac-super-user=kube-admin
         - --audit-log-path=/dev/stdout
+        - --audit-log-maxsize=50MB
+        - --audit-log-maxbackup=0
       livenessProbe:
         httpGet:
           host: 127.0.0.1
