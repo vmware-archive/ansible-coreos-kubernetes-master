@@ -17,6 +17,9 @@ spec:
 {% if terminated_pod_gc_threshold is defined %}
     - --terminated-pod-gc-threshold={{terminated_pod_gc_threshold}}
 {% endif %}
+    resources:
+      requests:
+        cpu: 200m
     livenessProbe:
       httpGet:
         host: 127.0.0.1
