@@ -17,6 +17,10 @@ spec:
 {% if terminated_pod_gc_threshold is defined %}
     - --terminated-pod-gc-threshold={{terminated_pod_gc_threshold}}
 {% endif %}
+    resources:
+      requests:
+        cpu: {{kube_controller_manager_requests_cpu}}
+        memory: {{kube_controller_manager_requests_memory}}
     livenessProbe:
       httpGet:
         host: 127.0.0.1

@@ -13,6 +13,10 @@ spec:
     - scheduler
     - --master=http://127.0.0.1:8080
     - --leader-elect=true
+    resources:
+      requests:
+        cpu: {{kube_scheduler_requests_cpu}}
+        memory: {{kube_scheduler_requests_memory}}
     livenessProbe:
       httpGet:
         host: 127.0.0.1
