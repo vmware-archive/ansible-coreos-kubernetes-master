@@ -8,3 +8,19 @@ etcd_certs_root: "/etc/ssl/etcd"
 kube_auth_dir: "/etc/kubernetes/auth"
 kube_users_map: {}
 kube_policies_list: []
+kube_authorization_mode: "ABAC,RBAC"
+kube_admission_control: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota"
+
+kube_enable_audit_logs: True
+kube_audit_log_path: "/dev/stdout"
+kube_audit_log_maxsize: 50
+kube_audit_log_maxbackup: 0
+
+kube_apiserver_requests_cpu: "200m"
+kube_apiserver_requests_memory: "128Mi"
+
+kube_scheduler_requests_cpu: "100m"
+kube_scheduler_requests_memory: "128Mi"
+
+kube_controller_manager_requests_cpu: "200m"
+kube_controller_manager_requests_memory: "128Mi"
