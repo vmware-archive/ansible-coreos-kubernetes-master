@@ -81,6 +81,12 @@
   sudo: yes
   template: src=kube-controller-manager.yaml dest={{kube_manifests_dir}}/kube-controller-manager.yaml
 
+- name: ensures kube scheduler policy config dir exists
+  sudo: yes
+  file: path={{kube_scheduler_policy_config_dir}} state=directory mode=0755
+  when:
+    - kube_scheduler_policy_config_dir != ""
+
 - name: create scheduler config policy file
   sudo: yes
   template: src={{kube_scheduler_policy_config_file_src}} dest={{kube_scheduler_policy_config_dir}}/{{kube_scheduler_policy_config_file_name}}
