@@ -10,6 +10,7 @@ kube_users_map: {}
 kube_policies_list: []
 kube_authorization_mode: "ABAC,RBAC"
 kube_admission_control: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota"
+kube_apiserver_secure_port: 6443
 
 kube_enable_audit_logs: True
 kube_audit_log_path: "/dev/stdout"
