@@ -17,7 +17,7 @@ spec:
         - --etcd-servers={{_etcd.peers()}}
         - --allow-privileged=true
         - --service-cluster-ip-range={{kubernetes_service_addresses}}
-        - --secure_port=443
+        - --secure-port={{kube_apiserver_secure_port}}
         - --advertise-address={{ansible_default_ipv4.address}}
         - --admission-control={{kube_admission_control}}
         - --tls-cert-file={{kube_cert_dir}}/apiserver.pem
@@ -46,8 +46,8 @@ spec:
         timeoutSeconds: 15
         periodSeconds: 15
       ports:
-        - containerPort: 443
-          hostPort: 443
+        - containerPort: {{kube_apiserver_secure_port}}
+          hostPort: {{kube_apiserver_secure_port}}
           name: https
         - containerPort: 8080
           hostPort: 8080
