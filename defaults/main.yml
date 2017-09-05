@@ -31,4 +31,6 @@ kube_scheduler_policy_config_dir: ""
 kube_scheduler_policy_config_file_name: ""
 kube_scheduler_verbosity: "3"
 
+enable_ext_scheduler: False
+
 kube_storage_backend: "etcd3"
