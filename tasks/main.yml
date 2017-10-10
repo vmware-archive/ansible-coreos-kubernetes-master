@@ -51,6 +51,11 @@
   sudo: yes
   copy: content="{{ kube_apiserver_key_pem }}" dest="{{ kube_cert_dir }}/apiserver-key.pem"
 
+- name: install kubeconfig
+  sudo: yes
+  template: src=apiserver-kubeconfig.yaml dest={{kube_config_dir}}/apiserver-kubeconfig.yaml
+  notify: restart kubelet
+
 - name: create manifests directory
   sudo: yes
   file:

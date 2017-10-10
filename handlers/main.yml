@@ -1,0 +1,4 @@
+---
+- name: restart kubelet
+  sudo: true
+  service: name=kubelet state=restarted
