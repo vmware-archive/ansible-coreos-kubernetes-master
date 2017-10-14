@@ -13,9 +13,9 @@ spec:
     - scheduler
     - --master=http://127.0.0.1:8080
     - --leader-elect=true
-    {% if kube_scheduler_policy_config_dir and kube_scheduler_policy_config_file_name -%}
+{% if kube_scheduler_policy_config_dir and kube_scheduler_policy_config_file_name %}
     - --policy-config-file={{kube_scheduler_policy_config_dir}}/{{kube_scheduler_policy_config_file_name}}
-    {% endif -%}
+{% endif %}
     - --v={{kube_scheduler_verbosity}}
     resources:
       requests:
@@ -28,12 +28,12 @@ spec:
         port: 10251
       initialDelaySeconds: 15
       timeoutSeconds: 1
-    {% if kube_scheduler_policy_config_dir -%}
+{% if kube_scheduler_policy_config_dir %}
     volumeMounts:
     - name: kube-scheduler-policy-config
       mountPath: {{kube_scheduler_policy_config_dir}}
-    {% endif -%}
-  {% if enable_ext_scheduler %}
+{% endif %}
+{% if enable_ext_scheduler %}
   - name: extended-scheduler
     image: {{ext_scheduler_image}}
     env:
@@ -61,10 +61,10 @@ spec:
       requests:
         memory: {{ext_scheduler_requests_memory}}
         cpu: {{ext_scheduler_requests_cpu}}
-  {% endif -%}
-  {% if kube_scheduler_policy_config_dir -%}
+{% endif %}
+{% if kube_scheduler_policy_config_dir %}
   volumes:
   - name: kube-scheduler-policy-config
     hostPath:
       path: {{kube_scheduler_policy_config_dir}}
-  {% endif -%}
+{% endif %}
