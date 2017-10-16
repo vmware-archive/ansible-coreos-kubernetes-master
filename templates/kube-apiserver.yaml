@@ -27,7 +27,6 @@ spec:
         - --token-auth-file=/etc/auth/tokens.csv
         - --authorization-mode={{kube_authorization_mode}}
         - --authorization-policy-file=/etc/auth/policies.jsonl
-        - --authorization-rbac-super-user=kube-admin
         - --storage-backend={{kube_storage_backend}}
 {% if kube_enable_audit_logs %}
         - --audit-log-path={{kube_audit_log_path}}
