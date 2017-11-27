@@ -46,10 +46,54 @@
 - name: register apiserver-key.pem
   set_fact:
     kube_apiserver_key_pem: "{{ apiserver_key_pem.content|b64decode }}"
-
 - name: place apiserver-key.pem
   sudo: yes
   copy: content="{{ kube_apiserver_key_pem }}" dest="{{ kube_cert_dir }}/apiserver-key.pem"
+
+- name: retrieve client-ca.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/client-ca.pem"
+  register: client_ca_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register client-ca.pem
+  set_fact:
+    kube_client_ca_pem: "{{ client_ca_pem.content|b64decode }}"
+
+- name: place client-ca.pem
+  sudo: yes
+  copy: content="{{ kube_client_ca_pem }}" dest="{{ kube_cert_dir }}/client-ca.pem"
+
+- name: retrieve client-key.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/client-key.pem"
+  register: client_key_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register client-key.pem
+  set_fact:
+    kube_client_key_pem: "{{ client_key_pem.content|b64decode }}"
+
+- name: place client-key.pem
+  sudo: yes
+  copy: content="{{ kube_client_key_pem }}" dest="{{ kube_cert_dir }}/client-key.pem"
+
+- name: retrieve client.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/client.pem"
+  register: client_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register client.pem
+  set_fact:
+    kube_client_pem: "{{ client_pem.content|b64decode }}"
+
+- name: place client.pem
+  sudo: yes
+  copy: content="{{ kube_client_pem }}" dest="{{ kube_cert_dir }}/client.pem"
 
 - name: install kubeconfig
   sudo: yes
