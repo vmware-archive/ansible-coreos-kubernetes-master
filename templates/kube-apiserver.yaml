@@ -29,6 +29,7 @@ spec:
         - --authorization-mode={{kube_authorization_mode}}
         - --authorization-policy-file=/etc/auth/policies.jsonl
         - --storage-backend={{kube_storage_backend}}
+        - --runtime-config=batch/v2alpha1=true
 {% if kube_enable_audit_logs %}
         - --audit-log-path={{kube_audit_log_path}}
         - --audit-log-maxsize={{kube_audit_log_maxsize}}
