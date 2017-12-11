@@ -39,12 +39,10 @@ spec:
   - name: extended-scheduler
     image: {{ext_scheduler_image}}
     env:
-    - name: LABEL_KEY
-      value: {{ext_scheduler_label_key}}
+    - name: LABEL_KEYS
+      value: {{ext_scheduler_label_keys}}
     - name: LOG_LEVEL
       value: {{ext_scheduler_log_level}}
-    - name: LOG_INSIGHT_HOST
-      value: {{ext_scheduler_log_insight_host}}
     livenessProbe:
       httpGet:
         host: 127.0.0.1
