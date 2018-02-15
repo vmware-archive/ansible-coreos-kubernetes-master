@@ -17,6 +17,7 @@ spec:
     - --leader-elect=true
 {% if kube_scheduler_policy_config_dir and kube_scheduler_policy_config_file_name %}
     - --policy-config-file={{kube_scheduler_policy_config_dir}}/{{kube_scheduler_policy_config_file_name}}
+    - --use-legacy-policy-config=true # temp fix for a regression in 1.9. Fix forthcoming in 1.11, https://github.com/kubernetes/kubernetes/commit/f611b3225491f368a2f0b10c1effedbc8cfc17cb
 {% endif %}
     - --v={{kube_scheduler_verbosity}}
     resources:
