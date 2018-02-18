@@ -40,6 +40,10 @@ spec:
         - --audit-log-maxsize={{kube_audit_log_maxsize}}
         - --audit-log-maxbackup={{kube_audit_log_maxbackup}}
 {% endif %}
+{% if kube_enable_cloud_provider %}
+        - --cloud-config={{kube_cloud_config_path}}
+        - --cloud-provider={{kube_cloud_provider}}
+{% endif %}
       resources:
         requests:
           cpu: {{kube_apiserver_requests_cpu}}
@@ -69,6 +73,11 @@ spec:
         - mountPath: /etc/auth
           name: auth-kubernetes
           readOnly: true
+{% if kube_enable_cloud_provider %}
+        - mountPath: {{kube_cloud_config_path}}
+          name: cloud-config
+          readOnly: true
+{% endif %}
   volumes:
     - hostPath:
         path: {{kube_cert_dir}}
@@ -79,3 +88,9 @@ spec:
     - hostPath:
         path: {{kube_auth_dir}}
       name: auth-kubernetes
+{% if kube_enable_cloud_provider %}
+    - hostPath:
+        path: {{kube_cloud_config_path}}
+        type: File
+      name: cloud-config
+{% endif %}

@@ -19,6 +19,10 @@ spec:
 {% if terminated_pod_gc_threshold is defined %}
     - --terminated-pod-gc-threshold={{terminated_pod_gc_threshold}}
 {% endif %}
+{% if kube_enable_cloud_provider %}
+    - --cloud-config={{kube_cloud_config_path}}
+    - --cloud-provider={{kube_cloud_provider}}
+{% endif %}
     resources:
       requests:
         cpu: {{kube_controller_manager_requests_cpu}}
@@ -37,6 +41,11 @@ spec:
     - mountPath: /etc/ssl/certs
       name: ssl-certs-host
       readOnly: true
+{% if kube_enable_cloud_provider %}
+    - mountPath: {{kube_cloud_config_path}}
+      name: cloud-config
+      readOnly: true
+{% endif %}
   hostNetwork: true
   volumes:
   - hostPath:
@@ -45,3 +54,9 @@ spec:
   - hostPath:
       path: /usr/share/ca-certificates
     name: ssl-certs-host
+{% if kube_enable_cloud_provider %}
+  - hostPath:
+      path: {{kube_cloud_config_path}}
+      type: File
+    name: cloud-config
+{% endif %}
