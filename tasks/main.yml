@@ -107,7 +107,7 @@
     state=directory
 
 - name: Copy cloud-config
-  sudo: yes
+  become: yes
   copy: src=cloud-config dest={{kube_cloud_config_path}} mode=0755
   when: kube_enable_cloud_provider == True
 
