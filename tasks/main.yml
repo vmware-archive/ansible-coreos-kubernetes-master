@@ -1,6 +1,6 @@
 ---
 - name: create certs directory
-  sudo: yes
+  become: yes
   file:
     path={{ kube_cert_dir }}
     state=directory
@@ -18,7 +18,7 @@
     kube_ca_pem: "{{ ca_pem.content|b64decode }}"
 
 - name: place ca.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_ca_pem }}" dest="{{ kube_cert_dir }}/ca.pem"
 
 - name: retrieve apiserver.pem
@@ -33,7 +33,7 @@
     kube_apiserver_pem: "{{ apiserver_pem.content|b64decode }}"
 
 - name: place apiserver.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_apiserver_pem }}" dest="{{ kube_cert_dir }}/apiserver.pem"
 
 - name: retrieve apiserver-key.pem
@@ -47,7 +47,7 @@
   set_fact:
     kube_apiserver_key_pem: "{{ apiserver_key_pem.content|b64decode }}"
 - name: place apiserver-key.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_apiserver_key_pem }}" dest="{{ kube_cert_dir }}/apiserver-key.pem"
 
 - name: retrieve client-ca.pem
@@ -62,7 +62,7 @@
     kube_client_ca_pem: "{{ client_ca_pem.content|b64decode }}"
 
 - name: place client-ca.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_client_ca_pem }}" dest="{{ kube_cert_dir }}/client-ca.pem"
 
 - name: retrieve client-key.pem
@@ -77,7 +77,7 @@
     kube_client_key_pem: "{{ client_key_pem.content|b64decode }}"
 
 - name: place client-key.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_client_key_pem }}" dest="{{ kube_cert_dir }}/client-key.pem"
 
 - name: retrieve client.pem
@@ -92,57 +92,57 @@
     kube_client_pem: "{{ client_pem.content|b64decode }}"
 
 - name: place client.pem
-  sudo: yes
+  become: yes
   copy: content="{{ kube_client_pem }}" dest="{{ kube_cert_dir }}/client.pem"
 
 - name: install kubeconfig
-  sudo: yes
+  become: yes
   template: src=apiserver-kubeconfig.yaml dest={{kube_config_dir}}/apiserver-kubeconfig.yaml
   notify: restart kubelet
 
 - name: create manifests directory
-  sudo: yes
+  become: yes
   file:
     path={{ kube_manifests_dir }}
     state=directory
 
 - name: Copy cloud-config
-  sudo: yes
+  become: yes
   copy: src=cloud-config dest={{kube_cloud_config_path}} mode=0755
   when: kube_enable_cloud_provider == True
 
 - name: create auth dir
-  sudo: yes
+  become: yes
   file: path={{kube_auth_dir}} state=directory
 
 - name: create token file
-  sudo: yes
+  become: yes
   template: src=tokens.csv dest={{kube_token_auth_file}}
 
 - name: create policies file
-  sudo: yes
+  become: yes
   template: src=policies.jsonl dest={{kube_policies_auth_file}}
 
 - name: install apiserver pod
-  sudo: yes
+  become: yes
   template: src=kube-apiserver.yaml dest={{kube_manifests_dir}}/kube-apiserver.yaml
 
 - name: install proxy pod
-  sudo: yes
+  become: yes
   template: src=kube-proxy.yaml dest={{kube_manifests_dir}}/kube-proxy.yaml
 
 - name: install controller-manager pod
-  sudo: yes
+  become: yes
   template: src=kube-controller-manager.yaml dest={{kube_manifests_dir}}/kube-controller-manager.yaml
 
 - name: ensures kube scheduler policy config dir exists
-  sudo: yes
+  become: yes
   file: path={{kube_scheduler_policy_config_dir}} state=directory mode=0755
   when:
     - kube_scheduler_policy_config_dir != ""
 
 - name: create scheduler config policy file
-  sudo: yes
+  become: yes
   template: src={{kube_scheduler_policy_config_file_src}} dest={{kube_scheduler_policy_config_dir}}/{{kube_scheduler_policy_config_file_name}}
   when:
     - kube_scheduler_policy_config_dir != ""
@@ -150,7 +150,7 @@
     - kube_scheduler_policy_config_file_src != ""
 
 - name: install scheduler pod
-  sudo: yes
+  become: yes
   template: src=kube-scheduler.yaml dest={{kube_manifests_dir}}/kube-scheduler.yaml
 
 - name: wait for apiserver to be up
