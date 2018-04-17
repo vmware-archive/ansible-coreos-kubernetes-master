@@ -5,6 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   hostNetwork: true
+  priorityClassName: system-node-critical
   containers:
   - name: kube-proxy
     image: "{{hyperkube}}"
@@ -13,6 +14,13 @@ spec:
     - proxy
     - --master=http://127.0.0.1:8080
     - --proxy-mode=iptables
+    resources:
+      requests:
+        cpu: {{kube_proxy_requests_cpu}}
+        memory: {{kube_proxy_requests_memory}}
+      limits:
+        cpu: {{kube_proxy_limits_cpu}}
+        memory: {{kube_proxy_limits_memory}}
     securityContext:
       privileged: true
     volumeMounts:
