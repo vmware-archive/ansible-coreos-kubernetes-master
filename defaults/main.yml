@@ -37,6 +37,7 @@ kube_proxy_requests_cpu: "200m"
 kube_proxy_requests_memory: "128Mi"
 kube_proxy_limits_cpu: "200m" # requests and limits should be same to get Guaranteed QoS
 kube_proxy_limits_memory: "128Mi"
+kube_proxy_master_log_level: 0
 
 kube_scheduler_policy_config_file_src: ""
 kube_scheduler_policy_config_dir: ""

@@ -12,6 +12,7 @@ spec:
     command:
     - /hyperkube
     - proxy
+    - -v={{kube_proxy_master_log_level}}
     - --master=http://127.0.0.1:8080
     - --proxy-mode=iptables
     resources:
