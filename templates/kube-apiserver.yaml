@@ -46,6 +46,7 @@ spec:
         - --cloud-config={{kube_cloud_config_path}}
         - --cloud-provider={{kube_cloud_provider}}
 {% endif %}
+        - --v={{kube_apiserver_verbosity}}
       resources:
         requests:
           cpu: {{kube_apiserver_requests_cpu}}
