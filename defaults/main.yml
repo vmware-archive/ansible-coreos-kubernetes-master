@@ -22,6 +22,7 @@ kube_apiserver_requests_cpu: "200m"
 kube_apiserver_requests_memory: "512Mi"
 kube_apiserver_limits_cpu: "200m" # requests and limits should be same to get Guaranteed QoS
 kube_apiserver_limits_memory: "512Mi"
+kube_apiserver_verbosity: "4"
 
 kube_scheduler_requests_cpu: "100m"
 kube_scheduler_requests_memory: "256Mi"
@@ -32,6 +33,7 @@ kube_controller_manager_requests_cpu: "300m"
 kube_controller_manager_requests_memory: "768Mi"
 kube_controller_manager_limits_cpu: "300m" # requests and limits should be same to get Guaranteed QoS
 kube_controller_manager_limits_memory: "768Mi"
+kube_controller_manager_verbosity: "4"
 
 kube_proxy_requests_cpu: "200m"
 kube_proxy_requests_memory: "128Mi"
