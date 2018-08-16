@@ -44,7 +44,7 @@ kube_proxy_master_log_level: 0
 kube_scheduler_policy_config_file_src: ""
 kube_scheduler_policy_config_dir: ""
 kube_scheduler_policy_config_file_name: ""
-kube_scheduler_verbosity: "3"
+kube_scheduler_verbosity: "4"
 
 enable_ext_scheduler: False
 
