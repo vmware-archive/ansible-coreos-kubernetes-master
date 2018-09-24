@@ -24,10 +24,15 @@ spec:
         - --feature-gates=PodPriority=true
         - --admission-control={{kube_admission_control}}
         - --runtime-config={{ kube_apiserver_runtime_config }}
-{% if enable_external_admission_controller_webhook %}
+{% if enable_external_admission_controller_webhook  or enable_aggregration_layer %}
         - --proxy-client-cert-file={{kube_cert_dir}}/client.pem
         - --proxy-client-key-file={{kube_cert_dir}}/client-key.pem
         - --requestheader-client-ca-file={{kube_cert_dir}}/client-ca.pem
+{% endif %}
+{% if enable_aggregration_layer %}
+        - --requestheader-extra-headers-prefix=X-Remote-Extra-
+        - --requestheader-group-headers=X-Remote-Group
+        - --requestheader-username-headers=X-Remote-User
 {% endif %}
         - --tls-cert-file={{kube_cert_dir}}/apiserver.pem
         - --tls-private-key-file={{kube_cert_dir}}/apiserver-key.pem
