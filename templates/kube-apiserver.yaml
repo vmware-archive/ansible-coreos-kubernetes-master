@@ -43,9 +43,11 @@ spec:
         - --authorization-policy-file=/etc/auth/policies.jsonl
         - --storage-backend={{kube_storage_backend}}
 {% if kube_enable_audit_logs %}
+        - --audit-policy-file={{kube_audit_policy_file}}
         - --audit-log-path={{kube_audit_log_path}}
         - --audit-log-maxsize={{kube_audit_log_maxsize}}
         - --audit-log-maxbackup={{kube_audit_log_maxbackup}}
+        - --audit-log-format=json
 {% endif %}
 {% if kube_enable_cloud_provider %}
         - --cloud-config={{kube_cloud_config_path}}
@@ -84,6 +86,14 @@ spec:
         - mountPath: /etc/auth
           name: auth-kubernetes
           readOnly: true
+{% if kube_enable_audit_logs %}
+        - mountPath: {{kube_audit_config_dir}}
+          name: kube-audit
+          readOnly: true
+        - mountPath: {{var_log_dir}}/kube-audit
+          subPath: kube-audit
+          name: var-log
+{% endif %}
 {% if kube_enable_cloud_provider %}
         - mountPath: {{kube_cloud_config_path}}
           name: cloud-config
@@ -99,6 +109,14 @@ spec:
     - hostPath:
         path: {{kube_auth_dir}}
       name: auth-kubernetes
+{% if kube_enable_audit_logs %}
+    - hostPath:
+        path: {{kube_audit_config_dir}}
+      name: kube-audit
+    - hostPath:
+        path: {{var_log_dir}}
+      name: var-log
+{% endif %}
 {% if kube_enable_cloud_provider %}
     - hostPath:
         path: {{kube_cloud_config_path}}
