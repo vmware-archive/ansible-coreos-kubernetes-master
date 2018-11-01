@@ -100,6 +100,15 @@
   template: src=apiserver-kubeconfig.yaml dest={{kube_config_dir}}/apiserver-kubeconfig.yaml
   notify: restart kubelet
 
+- name: create kube audit config dir
+  become: yes
+  file: path={{kube_audit_config_dir}} state=directory
+
+- name: copy kube audit policy file
+  become: yes
+  template: src=audit-policy.yaml dest={{kube_audit_policy_file}}
+  when: kube_enable_audit_logs
+
 - name: create manifests directory
   become: yes
   file:

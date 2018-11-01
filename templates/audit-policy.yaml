@@ -1,0 +1,4 @@
+apiVersion: audit.k8s.io/v1beta1
+kind: Policy
+rules:
+  {{ kube_api_audit_rules_list | to_nice_yaml(indent=2) | indent(width=2, indentfirst=False) }}

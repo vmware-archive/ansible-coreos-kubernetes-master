@@ -13,10 +13,16 @@ kube_authorization_mode: "ABAC,RBAC"
 kube_admission_control: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,Priority"
 kube_apiserver_secure_port: 6443
 
+var_log_dir: "/var/log"
 kube_enable_audit_logs: True
-kube_audit_log_path: "/dev/stdout"
+kube_audit_config_dir: "/etc/kubernetes/kube-audit"
+kube_audit_policy_file: "{{kube_audit_config_dir}}/audit-policy.yaml"
+kube_audit_log_path: "{{var_log_dir}}/kube-audit/audit.log"
 kube_audit_log_maxsize: 50
-kube_audit_log_maxbackup: 0
+kube_audit_log_maxbackup: 1
+#By default don't audit anything
+kube_api_audit_rules_list:
+  - level: None
 
 kube_apiserver_requests_cpu: "200m"
 kube_apiserver_requests_memory: "512Mi"
