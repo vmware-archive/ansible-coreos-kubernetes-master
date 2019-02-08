@@ -3,8 +3,12 @@ kube_config_dir: "/etc/kubernetes"
 kube_cert_dir: "/etc/kubernetes/ssl"
 kube_manifests_dir: "/etc/kubernetes/manifests"
 kubernetes_service_addresses: "172.21.0.0/16"
-kubernetes_version: "1.4.1"
-hyperkube: "gcr.io/google_containers/hyperkube:v{{kubernetes_version}}"
+
+gcr_repo: "gcr.io/google_containers"
+kubelet_image_url: "docker://gcr.io/google-containers/hyperkube"
+kubelet_image_tag: "v1.13.0"
+hyperkube: "{{gcr_repo}}/hyperkube:{{kubelet_image_tag}}"
+
 etcd_certs_root: "/etc/ssl/etcd"
 kube_auth_dir: "/etc/kubernetes/auth"
 kube_users_map: {}
