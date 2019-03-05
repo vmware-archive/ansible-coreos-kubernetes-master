@@ -5,8 +5,8 @@ kube_manifests_dir: "/etc/kubernetes/manifests"
 kubernetes_service_addresses: "172.21.0.0/16"
 
 gcr_repo: "gcr.io/google_containers"
-kubelet_image_url: "docker://gcr.io/google-containers/hyperkube"
-kubelet_image_tag: "v1.13.0"
+kubelet_image_url: "docker://{{gcr_repo}}/hyperkube"
+kubelet_image_tag: "v1.13.4"
 hyperkube: "{{gcr_repo}}/hyperkube:{{kubelet_image_tag}}"
 
 etcd_certs_root: "/etc/ssl/etcd"
