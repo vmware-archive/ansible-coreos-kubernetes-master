@@ -24,7 +24,7 @@ spec:
         - --secure-port={{kube_apiserver_secure_port}}
         - --advertise-address={{ansible_default_ipv4.address}}
         - --feature-gates=PodPriority=true
-        - --admission-control={{kube_admission_control}}
+        - --enable-admission-plugins={{kube_admission_control}}
         - --runtime-config={{ kube_apiserver_runtime_config }}
 {% if enable_external_admission_controller_webhook  or enable_aggregration_layer %}
         - --proxy-client-cert-file={{kube_cert_dir}}/client.pem
