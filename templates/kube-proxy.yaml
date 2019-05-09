@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: kube-proxy
   namespace: kube-system
+  labels:
+    k8s-app: kube-proxy
 spec:
   hostNetwork: true
   priorityClassName: system-node-critical
@@ -22,6 +24,13 @@ spec:
       limits:
         cpu: {{kube_proxy_limits_cpu}}
         memory: {{kube_proxy_limits_memory}}
+    livenessProbe:
+      httpGet:
+        host: 127.0.0.1
+        path: /healthz
+        port: 10255
+      initialDelaySeconds: 15
+      timeoutSeconds: 1
     securityContext:
       privileged: true
     volumeMounts:
