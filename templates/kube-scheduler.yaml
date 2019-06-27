@@ -46,6 +46,7 @@ spec:
 {% if enable_ext_scheduler %}
   - name: extended-scheduler
     image: {{ext_scheduler_image}}
+    imagePullPolicy: "IfNotPresent"
     env:
     - name: LABEL_KEYS
       value: {{ext_scheduler_label_keys}}
