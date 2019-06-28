@@ -48,8 +48,10 @@ spec:
       value: {{ext_scheduler_label_keys}}
     - name: LOG_LEVEL
       value: {{ext_scheduler_log_level}}
-    - name: DECC_CRITICAL_NAMESPACES
-      value: {{ext_scheduler_decc_critical_namespaces}}
+    - name: DECC_SYSTEM_NAMESPACES
+      value: {{ext_scheduler_decc_system_namespaces}}
+    - name: DECC_POD_LABEL
+      value: {{ext_scheduler_decc_pod_label}}
     livenessProbe:
       httpGet:
         host: 127.0.0.1
