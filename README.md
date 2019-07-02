@@ -19,4 +19,4 @@ Example Playbook
 License
 -------
 
-MIT
+This code is Dual Licensed MIT or GPLv3
