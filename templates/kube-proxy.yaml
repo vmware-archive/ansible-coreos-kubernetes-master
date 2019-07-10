@@ -19,6 +19,8 @@ spec:
     - proxy
     - -v={{kube_proxy_master_log_level}}
     - --master=http://127.0.0.1:8080
+    - --metrics-bind-address=0.0.0.0
+    - --metrics-port=10249
     - --proxy-mode=iptables
     resources:
       requests:
