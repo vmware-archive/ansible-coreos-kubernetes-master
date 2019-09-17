@@ -16,7 +16,7 @@ spec:
     image: "{{hyperkube}}"
     command:
     - /hyperkube
-    - scheduler
+    - kube-scheduler
     - --master=http://127.0.0.1:8080
     - --leader-elect=true
 {% if kube_scheduler_policy_config_dir and kube_scheduler_policy_config_file_name %}
