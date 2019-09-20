@@ -19,6 +19,7 @@ spec:
         - --bind-address=0.0.0.0
         - --etcd-servers={{_etcd.peers()}}
         - --apiserver-count={{groups['kubernetes-masters']|length}}
+        - --allow-privileged=true
         - --service-cluster-ip-range={{kubernetes_service_addresses}}
         - --secure-port={{kube_apiserver_secure_port}}
         - --advertise-address={{ansible_default_ipv4.address}}
