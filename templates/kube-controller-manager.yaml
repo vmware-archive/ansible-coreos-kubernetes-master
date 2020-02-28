@@ -20,6 +20,10 @@ spec:
     - --service-account-private-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --root-ca-file=/etc/kubernetes/ssl/ca.pem
     - --leader-elect=true
+{% if kubernetes_enable_cni %}
+    - --cluster-cidr={{kubernetes_cluster_cidr}}
+    - --allocate-node-cidrs=true
+{% endif %}
 {% if terminated_pod_gc_threshold is defined %}
     - --terminated-pod-gc-threshold={{terminated_pod_gc_threshold}}
 {% endif %}
