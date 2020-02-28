@@ -5,6 +5,8 @@ kube_config_dir: "/etc/kubernetes"
 kube_cert_dir: "/etc/kubernetes/ssl"
 kube_manifests_dir: "/etc/kubernetes/manifests"
 kubernetes_service_addresses: "172.21.0.0/16"
+kubernetes_cluster_cidr: "172.34.0.0/16"
+kubernetes_enable_cni: False
 kubernetes_version: "1.14.3"
 hyperkube: "gcr.io/google_containers/hyperkube:v{{kubernetes_version}}"
 etcd_certs_root: "/etc/ssl/etcd"
