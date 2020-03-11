@@ -22,6 +22,9 @@ spec:
     - --metrics-bind-address=0.0.0.0
     - --metrics-port=10249
     - --proxy-mode=iptables
+{% if kubernetes_enable_cni %}
+    - --cluster-cidr={{kubernetes_cluster_cidr}}
+{% endif %}
     resources:
       requests:
         cpu: {{kube_proxy_requests_cpu}}
