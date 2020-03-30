@@ -100,7 +100,7 @@
 - name: install kubeconfig
   become: yes
   template: src=apiserver-kubeconfig.yaml dest={{kube_config_dir}}/apiserver-kubeconfig.yaml
-  notify: restart kubelet
+  notify: reset failed kubelet
 
 - name: create kube audit config dir
   become: yes
@@ -163,6 +163,14 @@
 - name: install scheduler pod
   become: yes
   template: src=kube-scheduler.yaml dest={{kube_manifests_dir}}/kube-scheduler.yaml
+
+# By the time we get here, kubelet would have been restarting for a while and
+# would have already failed due to the systemd start rate limiting. Since we
+# are specifically waiting below for the apiserver to come up, which requires
+# kubelet, we must force handler execution immediately instead of waiting
+# for handler execution to happen at the end of the play, so that kubelet
+# gets successfully started.
+- meta: flush_handlers
 
 - name: wait for apiserver to be up
   command: curl -i --silent http://localhost:8080
