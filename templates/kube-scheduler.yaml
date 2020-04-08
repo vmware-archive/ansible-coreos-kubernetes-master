@@ -8,6 +8,10 @@ metadata:
   namespace: kube-system
   labels:
     k8s-app: kube-scheduler
+{% if kube_scheduler_policy_config_file_src %}
+  annotations:
+    configHash: {{ lookup('file', kube_scheduler_policy_config_file_src) | hash('md5') }}
+{% endif %}
 spec:
   hostNetwork: true
   priorityClassName: system-node-critical
