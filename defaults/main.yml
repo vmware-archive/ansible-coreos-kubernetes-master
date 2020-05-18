@@ -45,6 +45,10 @@ kube_controller_manager_limits_cpu: "300m" # requests and limits should be same 
 kube_controller_manager_limits_memory: "768Mi"
 kube_controller_manager_verbosity: "4"
 
+# Default list of controllers per https://v1-15.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/
+# To disable specific controllers, set this var with a limited set of controllers
+# kube_controllers: "attachdetach,bootstrapsigner,cloud-node-lifecycle,clusterrole-aggregation,cronjob,csrapproving,csrcleaner,csrsigning,daemonset,deployment,disruption,endpoint,garbagecollector,horizontalpodautoscaling,job,namespace,nodeipam,nodelifecycle,persistentvolume-binder,persistentvolume-expander,podgc,pv-protection,pvc-protection,replicaset,replicationcontroller,resourcequota,root-ca-cert-publisher,route,service,serviceaccount,serviceaccount-token,statefulset,tokencleaner,ttl,ttl-after-finished"
+
 kube_proxy_requests_cpu: "200m"
 kube_proxy_requests_memory: "128Mi"
 kube_proxy_limits_cpu: "200m" # requests and limits should be same to get Guaranteed QoS
