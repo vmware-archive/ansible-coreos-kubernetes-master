@@ -21,6 +21,7 @@ spec:
         - --apiserver-count={{groups['kubernetes-masters']|length}}
         - --allow-privileged=true
         - --service-cluster-ip-range={{kubernetes_service_addresses}}
+        - --service-node-port-range={{kubernetes_nodeport_range}}
         - --secure-port={{kube_apiserver_secure_port}}
         - --advertise-address={{ansible_default_ipv4.address}}
         - --feature-gates=PodPriority=true
