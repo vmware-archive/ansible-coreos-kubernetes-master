@@ -52,6 +52,36 @@
   become: yes
   copy: content="{{ kube_apiserver_key_pem }}" dest="{{ kube_cert_dir }}/apiserver-key.pem"
 
+- name: retrieve kube-apiserver-kubelet-client.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/kube-apiserver-kubelet-client.pem"
+  register: apiserver_kubelet_client_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register kube-apiserver-kubelet-client.pem
+  set_fact:
+    kube_apiserver_kubelet_client_pem: "{{ apiserver_kubelet_client_pem.content|b64decode }}"
+
+- name: place kube-apiserver-kubelet-client.pem
+  become: yes
+  copy: content="{{ kube_apiserver_kubelet_client_pem }}" dest="{{ kube_cert_dir }}/kube-apiserver-kubelet-client.pem"
+
+- name: retrieve kube-apiserver-kubelet-client-key.pem
+  slurp:
+    src: "{{kubernetes_ca_depot}}/kube-apiserver-kubelet-client-key.pem"
+  register: apiserver_kubelet_client_key_pem
+  run_once: true
+  delegate_to: "{{ groups['ca'][0] }}"
+
+- name: register kube-apiserver-kubelet-client-key.pem
+  set_fact:
+    kube_apiserver_kubelet_client_key_pem: "{{ apiserver_kubelet_client_key_pem.content|b64decode }}"
+
+- name: place kube-apiserver-kubelet-client-key.pem
+  become: yes
+  copy: content="{{ kube_apiserver_kubelet_client_key_pem }}" dest="{{ kube_cert_dir }}/kube-apiserver-kubelet-client-key.pem"
+
 - name: retrieve client-ca.pem
   slurp:
     src: "{{kubernetes_ca_depot}}/client-ca.pem"
