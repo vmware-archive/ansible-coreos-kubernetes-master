@@ -40,6 +40,8 @@ spec:
         - --tls-cert-file={{kube_cert_dir}}/apiserver.pem
         - --tls-private-key-file={{kube_cert_dir}}/apiserver-key.pem
         - --client-ca-file={{kube_cert_dir}}/ca.pem
+        - --kubelet-client-certificate={{kube_cert_dir}}/kube-apiserver-kubelet-client.pem
+        - --kubelet-client-key={{kube_cert_dir}}/kube-apiserver-kubelet-client-key.pem
         - --service-account-key-file={{kube_cert_dir}}/apiserver-key.pem
         - --token-auth-file=/etc/auth/tokens.csv
         - --authorization-mode={{kube_authorization_mode}}
