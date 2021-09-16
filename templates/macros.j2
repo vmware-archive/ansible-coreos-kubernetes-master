@@ -15,6 +15,14 @@
 
 {% macro peers() -%}
 {% set all_etcd = [] -%}
-{% set _ = all_etcd.append("%s://%s:2379" % (proto, my_ip)) -%}
+{% if enable_etcd_gateway -%}
+  {% set _ = all_etcd.append("%s://%s:2379" % (proto, my_ip)) -%}
+{% else -%}
+  {% set etcd_hosts = groups['etcd'] -%}
+  {% for etcd_host in etcd_hosts -%}
+    {% set etcd_host_ip = hostvars[etcd_host]['ansible_default_ipv4']['address'] -%}
+    {% set _ = all_etcd.append("%s://%s:2379" % (proto, etcd_host_ip)) -%}
+  {% endfor -%}
+{% endif -%}
 {{all_etcd|join(',')}}
 {%- endmacro %}

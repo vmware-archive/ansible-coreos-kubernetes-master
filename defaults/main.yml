@@ -11,6 +11,7 @@ kubernetes_enable_cni: False
 kubernetes_version: "1.14.3"
 hyperkube: "gcr.io/google_containers/hyperkube:v{{kubernetes_version}}"
 etcd_certs_root: "/etc/ssl/etcd"
+enable_etcd_gateway: True
 kube_auth_dir: "/etc/kubernetes/auth"
 kube_users_map: {}
 kube_policies_list: []
